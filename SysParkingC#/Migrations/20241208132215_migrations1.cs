@@ -5,26 +5,29 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SysParkingC_.Migrations
 {
-    public partial class migration1 : Migration
+    public partial class migrations1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Carro",
+                name: "Estacionamento",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Marca = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Modelo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Cor = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Placa = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DataEntrada = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HoraEntrada = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Endereco = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NumeroVagasDisponiveis = table.Column<int>(type: "int", nullable: false),
+                    Preco15Min = table.Column<double>(type: "float", nullable: false),
+                    Preco30Min = table.Column<double>(type: "float", nullable: false),
+                    Preco1Hora = table.Column<double>(type: "float", nullable: false),
+                    PrecoDiaria = table.Column<double>(type: "float", nullable: false),
+                    PrecoPernoite = table.Column<double>(type: "float", nullable: false),
+                    PrecoMensal = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Carro", x => x.Id);
+                    table.PrimaryKey("PK_Estacionamento", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -45,67 +48,24 @@ namespace SysParkingC_.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TabelaPreco",
+                name: "Carro",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Preco15Min = table.Column<double>(type: "float", nullable: false),
-                    Preco30Min = table.Column<double>(type: "float", nullable: false),
-                    Preco1Hora = table.Column<double>(type: "float", nullable: false),
-                    PrecoDiaria = table.Column<double>(type: "float", nullable: false),
-                    PrecoPernoite = table.Column<double>(type: "float", nullable: false),
-                    PrecoMensal = table.Column<double>(type: "float", nullable: false)
+                    Marca = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Modelo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Cor = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Placa = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DataEntrada = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    HoraEntrada = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EstacionamentoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TabelaPreco", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Estacionamento",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Endereco = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NumeroVagasDisponiveis = table.Column<int>(type: "int", nullable: false),
-                    TabelaPrecoId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Estacionamento", x => x.Id);
+                    table.PrimaryKey("PK_Carro", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Estacionamento_TabelaPreco_TabelaPrecoId",
-                        column: x => x.TabelaPrecoId,
-                        principalTable: "TabelaPreco",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "NotaFiscal",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CarroId = table.Column<int>(type: "int", nullable: false),
-                    EstacionamentoId = table.Column<int>(type: "int", nullable: false),
-                    DataSaida = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HoraSaida = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Pagamento = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_NotaFiscal", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_NotaFiscal_Carro_CarroId",
-                        column: x => x.CarroId,
-                        principalTable: "Carro",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_NotaFiscal_Estacionamento_EstacionamentoId",
+                        name: "FK_Carro_Estacionamento_EstacionamentoId",
                         column: x => x.EstacionamentoId,
                         principalTable: "Estacionamento",
                         principalColumn: "Id",
@@ -136,10 +96,38 @@ namespace SysParkingC_.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "NotaFiscal",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CarroId = table.Column<int>(type: "int", nullable: false),
+                    DataSaida = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    HoraSaida = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Pagamento = table.Column<int>(type: "int", nullable: false),
+                    EstacionamentoId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NotaFiscal", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_NotaFiscal_Carro_CarroId",
+                        column: x => x.CarroId,
+                        principalTable: "Carro",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_NotaFiscal_Estacionamento_EstacionamentoId",
+                        column: x => x.EstacionamentoId,
+                        principalTable: "Estacionamento",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_Estacionamento_TabelaPrecoId",
-                table: "Estacionamento",
-                column: "TabelaPrecoId");
+                name: "IX_Carro_EstacionamentoId",
+                table: "Carro",
+                column: "EstacionamentoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_NotaFiscal_CarroId",
@@ -173,9 +161,6 @@ namespace SysParkingC_.Migrations
 
             migrationBuilder.DropTable(
                 name: "Estacionamento");
-
-            migrationBuilder.DropTable(
-                name: "TabelaPreco");
         }
     }
 }

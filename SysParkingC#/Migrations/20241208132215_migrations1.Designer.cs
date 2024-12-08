@@ -12,8 +12,8 @@ using SysParkingC_.Data;
 namespace SysParkingC_.Migrations
 {
     [DbContext(typeof(SysParkingC_Context))]
-    [Migration("20241208030856_migration1")]
-    partial class migration1
+    [Migration("20241208132215_migrations1")]
+    partial class migrations1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,6 +38,9 @@ namespace SysParkingC_.Migrations
                     b.Property<DateTime>("DataEntrada")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("EstacionamentoId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("HoraEntrada")
                         .HasColumnType("datetime2");
 
@@ -51,6 +54,8 @@ namespace SysParkingC_.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EstacionamentoId");
 
                     b.ToTable("Carro");
                 });
@@ -72,12 +77,25 @@ namespace SysParkingC_.Migrations
                     b.Property<int>("NumeroVagasDisponiveis")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TabelaPrecoId")
-                        .HasColumnType("int");
+                    b.Property<double>("Preco15Min")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Preco1Hora")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Preco30Min")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PrecoDiaria")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PrecoMensal")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PrecoPernoite")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TabelaPrecoId");
 
                     b.ToTable("Estacionamento");
                 });
@@ -96,7 +114,7 @@ namespace SysParkingC_.Migrations
                     b.Property<DateTime>("DataSaida")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EstacionamentoId")
+                    b.Property<int?>("EstacionamentoId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("HoraSaida")
@@ -142,37 +160,6 @@ namespace SysParkingC_.Migrations
                     b.ToTable("Relatorio");
                 });
 
-            modelBuilder.Entity("SysParkingC_.Models.TabelaPreco", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<double>("Preco15Min")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Preco1Hora")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Preco30Min")
-                        .HasColumnType("float");
-
-                    b.Property<double>("PrecoDiaria")
-                        .HasColumnType("float");
-
-                    b.Property<double>("PrecoMensal")
-                        .HasColumnType("float");
-
-                    b.Property<double>("PrecoPernoite")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TabelaPreco");
-                });
-
             modelBuilder.Entity("SysParkingC_.Models.Usuario", b =>
                 {
                     b.Property<int>("Id")
@@ -206,13 +193,15 @@ namespace SysParkingC_.Migrations
                     b.ToTable("Usuario");
                 });
 
-            modelBuilder.Entity("SysParkingC_.Models.Estacionamento", b =>
+            modelBuilder.Entity("SysParkingC_.Models.Carro", b =>
                 {
-                    b.HasOne("SysParkingC_.Models.TabelaPreco", "TabelaPreco")
-                        .WithMany("Estacionamentos")
-                        .HasForeignKey("TabelaPrecoId");
+                    b.HasOne("SysParkingC_.Models.Estacionamento", "Estacionamento")
+                        .WithMany()
+                        .HasForeignKey("EstacionamentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("TabelaPreco");
+                    b.Navigation("Estacionamento");
                 });
 
             modelBuilder.Entity("SysParkingC_.Models.NotaFiscal", b =>
@@ -223,15 +212,11 @@ namespace SysParkingC_.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SysParkingC_.Models.Estacionamento", "Estacionamento")
+                    b.HasOne("SysParkingC_.Models.Estacionamento", null)
                         .WithMany("Notas")
-                        .HasForeignKey("EstacionamentoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EstacionamentoId");
 
                     b.Navigation("Carro");
-
-                    b.Navigation("Estacionamento");
                 });
 
             modelBuilder.Entity("SysParkingC_.Models.Usuario", b =>
@@ -255,11 +240,6 @@ namespace SysParkingC_.Migrations
                     b.Navigation("Notas");
 
                     b.Navigation("Usuarios");
-                });
-
-            modelBuilder.Entity("SysParkingC_.Models.TabelaPreco", b =>
-                {
-                    b.Navigation("Estacionamentos");
                 });
 #pragma warning restore 612, 618
         }

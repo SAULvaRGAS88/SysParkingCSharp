@@ -22,7 +22,22 @@
                 @Html.DisplayNameFor(model => model.NumeroVagasDisponiveis)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TabelaPreco)
+                @Html.DisplayNameFor(model => model.Preco15Min)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Preco30Min)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Preco1Hora)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecoDiaria)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecoPernoite)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecoMensal)
             </th>
             <th></th>
         </tr>
@@ -40,7 +55,22 @@
                 @Html.DisplayFor(modelItem => item.NumeroVagasDisponiveis)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TabelaPreco.Id)
+                @Html.DisplayFor(modelItem => item.Preco15Min)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Preco30Min)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Preco1Hora)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecoDiaria)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecoPernoite)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecoMensal)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -12,11 +12,6 @@ namespace SysParkingC_.Models
         [ForeignKey("CarroId")]
         public Carro? Carro { get; set; }
 
-        public int EstacionamentoId { get; set; }
-
-        [ForeignKey("EstacionamentoId")]
-        public Estacionamento? Estacionamento { get; set; }
-
         public DateTime DataSaida { get; set; }
         public DateTime HoraSaida { get; set; }
         public TipoPagamento Pagamento { get; set; }

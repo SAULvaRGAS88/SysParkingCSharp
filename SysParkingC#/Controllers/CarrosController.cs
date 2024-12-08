@@ -10,94 +10,90 @@ using SysParkingC_.Models;
 
 namespace SysParkingC_.Controllers
 {
-    public class NotaFiscaisController : Controller
+    public class CarrosController : Controller
     {
         private readonly SysParkingC_Context _context;
 
-        public NotaFiscaisController(SysParkingC_Context context)
+        public CarrosController(SysParkingC_Context context)
         {
             _context = context;
         }
 
-        // GET: NotaFiscais
+        // GET: Carros
         public async Task<IActionResult> Index()
         {
-            var sysParkingC_Context = _context.NotaFiscal.Include(n => n.Carro).Include(n => n.Estacionamento);
+            var sysParkingC_Context = _context.Carro.Include(c => c.Estacionamento);
             return View(await sysParkingC_Context.ToListAsync());
         }
 
-        // GET: NotaFiscais/Details/5
+        // GET: Carros/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.NotaFiscal == null)
+            if (id == null || _context.Carro == null)
             {
                 return NotFound();
             }
 
-            var notaFiscal = await _context.NotaFiscal
-                .Include(n => n.Carro)
-                .Include(n => n.Estacionamento)
+            var carro = await _context.Carro
+                .Include(c => c.Estacionamento)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (notaFiscal == null)
+            if (carro == null)
             {
                 return NotFound();
             }
 
-            return View(notaFiscal);
+            return View(carro);
         }
 
-        // GET: NotaFiscais/Create
+        // GET: Carros/Create
         public IActionResult Create()
         {
-            ViewData["CarroId"] = new SelectList(_context.Carro, "Id", "Id");
             ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamento, "Id", "Id");
             return View();
         }
 
-        // POST: NotaFiscais/Create
+        // POST: Carros/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CarroId,EstacionamentoId,DataSaida,HoraSaida,Pagamento")] NotaFiscal notaFiscal)
+        public async Task<IActionResult> Create([Bind("Id,Marca,Modelo,Cor,Placa,DataEntrada,HoraEntrada,EstacionamentoId")] Carro carro)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(notaFiscal);
+                _context.Add(carro);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CarroId"] = new SelectList(_context.Carro, "Id", "Id", notaFiscal.CarroId);
-            ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamento, "Id", "Id", notaFiscal.EstacionamentoId);
-            return View(notaFiscal);
+            ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamento, "Id", "Id", carro.EstacionamentoId);
+            return View(carro);
         }
 
-        // GET: NotaFiscais/Edit/5
+        // GET: Carros/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.NotaFiscal == null)
+            if (id == null || _context.Carro == null)
             {
                 return NotFound();
             }
 
-            var notaFiscal = await _context.NotaFiscal.FindAsync(id);
-            if (notaFiscal == null)
+            var carro = await _context.Carro.FindAsync(id);
+            if (carro == null)
             {
                 return NotFound();
             }
-            ViewData["CarroId"] = new SelectList(_context.Carro, "Id", "Id", notaFiscal.CarroId);
-            ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamento, "Id", "Id", notaFiscal.EstacionamentoId);
-            return View(notaFiscal);
+            ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamento, "Id", "Id", carro.EstacionamentoId);
+            return View(carro);
         }
 
-        // POST: NotaFiscais/Edit/5
+        // POST: Carros/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CarroId,EstacionamentoId,DataSaida,HoraSaida,Pagamento")] NotaFiscal notaFiscal)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Marca,Modelo,Cor,Placa,DataEntrada,HoraEntrada,EstacionamentoId")] Carro carro)
         {
-            if (id != notaFiscal.Id)
+            if (id != carro.Id)
             {
                 return NotFound();
             }
@@ -106,12 +102,12 @@ namespace SysParkingC_.Controllers
             {
                 try
                 {
-                    _context.Update(notaFiscal);
+                    _context.Update(carro);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!NotaFiscalExists(notaFiscal.Id))
+                    if (!CarroExists(carro.Id))
                     {
                         return NotFound();
                     }
@@ -122,53 +118,51 @@ namespace SysParkingC_.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CarroId"] = new SelectList(_context.Carro, "Id", "Id", notaFiscal.CarroId);
-            ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamento, "Id", "Id", notaFiscal.EstacionamentoId);
-            return View(notaFiscal);
+            ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamento, "Id", "Id", carro.EstacionamentoId);
+            return View(carro);
         }
 
-        // GET: NotaFiscais/Delete/5
+        // GET: Carros/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.NotaFiscal == null)
+            if (id == null || _context.Carro == null)
             {
                 return NotFound();
             }
 
-            var notaFiscal = await _context.NotaFiscal
-                .Include(n => n.Carro)
-                .Include(n => n.Estacionamento)
+            var carro = await _context.Carro
+                .Include(c => c.Estacionamento)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (notaFiscal == null)
+            if (carro == null)
             {
                 return NotFound();
             }
 
-            return View(notaFiscal);
+            return View(carro);
         }
 
-        // POST: NotaFiscais/Delete/5
+        // POST: Carros/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.NotaFiscal == null)
+            if (_context.Carro == null)
             {
-                return Problem("Entity set 'SysParkingC_Context.NotaFiscal'  is null.");
+                return Problem("Entity set 'SysParkingC_Context.Carro'  is null.");
             }
-            var notaFiscal = await _context.NotaFiscal.FindAsync(id);
-            if (notaFiscal != null)
+            var carro = await _context.Carro.FindAsync(id);
+            if (carro != null)
             {
-                _context.NotaFiscal.Remove(notaFiscal);
+                _context.Carro.Remove(carro);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool NotaFiscalExists(int id)
+        private bool CarroExists(int id)
         {
-          return (_context.NotaFiscal?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Carro?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

@@ -22,8 +22,9 @@ namespace SysParkingC_.Controllers
         // GET: Estacionamentos
         public async Task<IActionResult> Index()
         {
-            var sysParkingC_Context = _context.Estacionamento.Include(e => e.TabelaPreco);
-            return View(await sysParkingC_Context.ToListAsync());
+              return _context.Estacionamento != null ? 
+                          View(await _context.Estacionamento.ToListAsync()) :
+                          Problem("Entity set 'SysParkingC_Context.Estacionamento'  is null.");
         }
 
         // GET: Estacionamentos/Details/5
@@ -35,7 +36,6 @@ namespace SysParkingC_.Controllers
             }
 
             var estacionamento = await _context.Estacionamento
-                .Include(e => e.TabelaPreco)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (estacionamento == null)
             {
@@ -48,7 +48,6 @@ namespace SysParkingC_.Controllers
         // GET: Estacionamentos/Create
         public IActionResult Create()
         {
-            ViewData["TabelaPrecoId"] = new SelectList(_context.Set<TabelaPreco>(), "Id", "Id");
             return View();
         }
 
@@ -57,7 +56,7 @@ namespace SysParkingC_.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Endereco,NumeroVagasDisponiveis,TabelaPrecoId")] Estacionamento estacionamento)
+        public async Task<IActionResult> Create([Bind("Id,Name,Endereco,NumeroVagasDisponiveis,Preco15Min,Preco30Min,Preco1Hora,PrecoDiaria,PrecoPernoite,PrecoMensal")] Estacionamento estacionamento)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +64,6 @@ namespace SysParkingC_.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TabelaPrecoId"] = new SelectList(_context.Set<TabelaPreco>(), "Id", "Id", estacionamento.TabelaPrecoId);
             return View(estacionamento);
         }
 
@@ -82,7 +80,6 @@ namespace SysParkingC_.Controllers
             {
                 return NotFound();
             }
-            ViewData["TabelaPrecoId"] = new SelectList(_context.Set<TabelaPreco>(), "Id", "Id", estacionamento.TabelaPrecoId);
             return View(estacionamento);
         }
 
@@ -91,7 +88,7 @@ namespace SysParkingC_.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Endereco,NumeroVagasDisponiveis,TabelaPrecoId")] Estacionamento estacionamento)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Endereco,NumeroVagasDisponiveis,Preco15Min,Preco30Min,Preco1Hora,PrecoDiaria,PrecoPernoite,PrecoMensal")] Estacionamento estacionamento)
         {
             if (id != estacionamento.Id)
             {
@@ -118,7 +115,6 @@ namespace SysParkingC_.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TabelaPrecoId"] = new SelectList(_context.Set<TabelaPreco>(), "Id", "Id", estacionamento.TabelaPrecoId);
             return View(estacionamento);
         }
 
@@ -131,7 +127,6 @@ namespace SysParkingC_.Controllers
             }
 
             var estacionamento = await _context.Estacionamento
-                .Include(e => e.TabelaPreco)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (estacionamento == null)
             {

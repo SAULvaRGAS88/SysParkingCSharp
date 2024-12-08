@@ -28,8 +28,34 @@
                 <span asp-validation-for="NumeroVagasDisponiveis" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TabelaPrecoId" class="control-label"></label>
-                <select asp-for="TabelaPrecoId" class ="form-control" asp-items="ViewBag.TabelaPrecoId"></select>
+                <label asp-for="Preco15Min" class="control-label"></label>
+                <input asp-for="Preco15Min" class="form-control" />
+                <span asp-validation-for="Preco15Min" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Preco30Min" class="control-label"></label>
+                <input asp-for="Preco30Min" class="form-control" />
+                <span asp-validation-for="Preco30Min" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Preco1Hora" class="control-label"></label>
+                <input asp-for="Preco1Hora" class="form-control" />
+                <span asp-validation-for="Preco1Hora" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrecoDiaria" class="control-label"></label>
+                <input asp-for="PrecoDiaria" class="form-control" />
+                <span asp-validation-for="PrecoDiaria" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrecoPernoite" class="control-label"></label>
+                <input asp-for="PrecoPernoite" class="form-control" />
+                <span asp-validation-for="PrecoPernoite" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrecoMensal" class="control-label"></label>
+                <input asp-for="PrecoMensal" class="form-control" />
+                <span asp-validation-for="PrecoMensal" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

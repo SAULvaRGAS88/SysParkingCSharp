@@ -1,4 +1,6 @@
-﻿namespace SysParkingC_.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SysParkingC_.Models
 {
     public class Carro
     {
@@ -10,5 +12,8 @@
         public DateTime DataEntrada { get; set; }
         public DateTime HoraEntrada { get; set; }
         public List<NotaFiscal> Notas { get; set; } = new List<NotaFiscal>();
+
+        public int EstacionamentoId { get; set; }
+        public Estacionamento? Estacionamento { get; set; }
     }
 }
