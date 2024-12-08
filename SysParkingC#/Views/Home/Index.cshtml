@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="display-4">Bem-vindo ao SysParkingC#</h1>
+        <p class="lead">Gerencie estacionamentos, carros, usuários e relatórios com facilidade.</p>
+    </div>
+    <div class="row g-4">
+        <!-- Card Estacionamento -->
+        <div class="col-md-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-background text-center">
+                    <h5 class="card-title">Estacionamento</h5>
+                    <p class="card-text">Gerencie os estacionamentos e mantenha tudo organizado.</p>
+                    <a asp-area="" asp-controller="Estacionamentos" asp-action="Index" class="btn btn-primary">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Relatório -->
+        <div class="col-md-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-background text-center">
+                    <h5 class="card-title">Relatório</h5>
+                    <p class="card-text">Visualize relatórios detalhados do sistema.</p>
+                    <a asp-area="" asp-controller="Relatorios" asp-action="Index" class="btn btn-primary">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Carro -->
+        <div class="col-md-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-background text-center">
+                    <h5 class="card-title">Carro</h5>
+                    <p class="card-text">Gerencie os veículos estacionados com facilidade.</p>
+                    <a asp-area="" asp-controller="Carroes" asp-action="Index" class="btn btn-primary">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Usuário -->
+        <div class="col-md-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-background text-center">
+                    <h5 class="card-title">Usuário</h5>
+                    <p class="card-text">Controle os usuários que acessam o sistema.</p>
+                    <a asp-area="" asp-controller="Usuarios" asp-action="Index" class="btn btn-primary">Acessar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
