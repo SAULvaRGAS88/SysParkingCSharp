@@ -15,6 +15,8 @@ namespace SysParkingC_.Models
         public DateTime DataSaida { get; set; }
         public DateTime HoraSaida { get; set; }
         public TipoPagamento Pagamento { get; set; }
+        public string ? TempoPermanencia { get; set; }
+        public double? ValorTotal { get; set; }
     }
 
     public enum TipoPagamento

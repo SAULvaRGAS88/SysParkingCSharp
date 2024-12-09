@@ -164,5 +164,71 @@ namespace SysParkingC_.Controllers
         {
           return (_context.NotaFiscal?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        //Gerar nota Fiscal de Saida
+        public async Task<IActionResult> GerarNota(int id)
+        {
+            // Busca o carro no banco de dados pelo ID
+            var carro = await _context.Carro.FirstOrDefaultAsync(c => c.Id == id);
+
+            if (carro == null)
+            {
+                return NotFound("Carro não encontrado.");
+            }
+
+            // Calcula o tempo de permanência
+            var tempoDePermanencia = DateTime.Now - carro.HoraEntrada;
+
+            // Gera a nota fiscal
+            var notaFiscal = new NotaFiscal
+            {
+                CarroId = carro.Id,
+                DataSaida = DateTime.Now.Date,
+                HoraSaida = DateTime.Now,
+                TempoPermanencia = $"{(int)tempoDePermanencia.TotalHours}h {tempoDePermanencia.Minutes}m",
+                ValorTotal = (double?)CalcularValor(tempoDePermanencia) // Função para calcular o valor
+            };
+
+            // Adiciona a nota fiscal ao banco de dados
+            _context.NotaFiscal.Add(notaFiscal);
+            await _context.SaveChangesAsync();
+
+            // Retorna a View com os dados da nota fiscal
+            return View(carro);
+        }
+
+        // Função para calcular o valor com base no tempo de permanência
+        private decimal CalcularValor(TimeSpan tempoDePermanencia)
+        {
+            decimal tarifaPorHora = 10; // Exemplo: R$10 por hora
+            return (decimal)tempoDePermanencia.TotalHours * tarifaPorHora;
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> GerarNotaFiscalConfirmada(int id)
+        {
+            var carro = await _context.Carro.FirstOrDefaultAsync(c => c.Id == id);
+
+            if (carro == null)
+            {
+                return NotFound();
+            }
+
+            // Criando uma instância da nota fiscal
+            var notaFiscal = new NotaFiscal
+            {
+                CarroId = carro.Id,
+                DataSaida = DateTime.Now,
+                HoraSaida = DateTime.Now
+            };
+
+            _context.NotaFiscal.Add(notaFiscal);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "NotasFiscais");
+        }
+
     }
 }

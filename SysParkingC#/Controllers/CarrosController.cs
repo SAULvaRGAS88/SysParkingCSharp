@@ -164,5 +164,47 @@ namespace SysParkingC_.Controllers
         {
           return (_context.Carro?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        public async Task<IActionResult> EntrarNoEstacionamento(int id)
+        {
+            var carro = await _context.Carro.FirstOrDefaultAsync(c => c.Id == id);
+
+            if (carro == null)
+            {
+                return NotFound();
+            }
+
+            // Atualizar HoraEntrada no momento correto
+            carro.HoraEntrada = DateTime.Now;
+
+            _context.Update(carro);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index"); // Redirecionando para uma lista ou página relevante
+        }
+
+        public async Task<double> CalculaCustoPermanencia(int id)
+        {
+            var Estacionamento = await _context.Estacionamento.FirstOrDefaultAsync(c => c.Id == id);
+
+            if (Estacionamento == null)
+            {
+                Console.WriteLine("Estacionamento não está carregado.");
+                return 1;
+            }
+
+            
+            //double tempoEmMinutos = TempoPermanencia;
+var carro = await _context.Carro.FirstOrDefaultAsync(c => c.Id == id);
+var tempoEmMinutos = (DateTime.Now - carro.HoraEntrada).TotalMinutes;
+            if (tempoEmMinutos <= 15) return Estacionamento.Preco15Min;
+            if (tempoEmMinutos <= 30) return Estacionamento.Preco30Min;
+            if (tempoEmMinutos <= 60) return Estacionamento.Preco1Hora;
+            if (tempoEmMinutos > 60 && tempoEmMinutos <= 24 * 60) return Estacionamento.PrecoDiaria;
+            if (tempoEmMinutos > 24 * 60) return Estacionamento.PrecoPernoite;
+
+            return 0;
+        }
     }
+
 }
