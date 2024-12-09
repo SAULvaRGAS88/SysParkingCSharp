@@ -1,13 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SysParkingC_.Data;
 using System.ComponentModel.DataAnnotations;
 
 namespace SysParkingC_.Models
 {
     public class Carro
     {
-        private readonly ApplicationDbContext _context; // Contexto do banco de dados
+        private readonly SysParkingC_Context? _context; // Contexto do banco de dados
 
-        public Carro(ApplicationDbContext context)
+        // Construtor padrão necessário para model binding
+        public Carro() { }
+
+        // Construtor adicional para injeção do contexto
+        public Carro(SysParkingC_Context context)
         {
             _context = context;
         }
@@ -27,13 +32,19 @@ namespace SysParkingC_.Models
         public List<NotaFiscal> Notas { get; set; } = new List<NotaFiscal>();
 
         public int EstacionamentoId { get; set; }
-        public Estacionamento? Estacionamento { get; set; } // Estacionamento opcional
+        public Estacionamento? Estacionamento { get; set; }
 
         public async Task CarregarEstacionamentoAsync()
         {
+            if (_context == null)
+            {
+                Console.WriteLine("Erro: o contexto não foi configurado.");
+                return;
+            }
+
             try
             {
-                Estacionamento = await _context.Estacionamentos
+                Estacionamento = await _context.Estacionamento
                     .FirstOrDefaultAsync(e => e.Id == this.EstacionamentoId);
 
                 if (Estacionamento == null)
@@ -67,7 +78,7 @@ namespace SysParkingC_.Models
             if (Estacionamento == null)
             {
                 Console.WriteLine("Estacionamento não está carregado.");
-                return 1;
+                return 0;
             }
 
             var tempoEmMinutos = TempoPermanencia;

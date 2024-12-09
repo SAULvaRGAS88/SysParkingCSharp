@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SysParkingC_.Data;
 using SysParkingC_.Models;
 
 namespace SysParkingC_
@@ -15,7 +16,7 @@ namespace SysParkingC_
         public void ConfigureServices(IServiceCollection services)
         {
             // Configurar o DbContext com a string de conexão correta
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<SysParkingC_Context>(options =>
                 options.UseSqlServer(_configuration.GetConnectionString("SysParkingC_Context")));
 
             services.AddControllersWithViews();
