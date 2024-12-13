@@ -165,8 +165,7 @@ namespace SysParkingC_.Controllers
           return (_context.NotaFiscal?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
-        //Gerar nota Fiscal de Saida
-        public async Task<IActionResult> GerarNota(int id)
+        public async Task<IActionResult> GerarNota(int id, NotaFiscal model)
         {
             // Busca o carro no banco de dados pelo ID
             var carro = await _context.Carro.FirstOrDefaultAsync(c => c.Id == id);
@@ -175,6 +174,7 @@ namespace SysParkingC_.Controllers
             {
                 return NotFound("Carro não encontrado.");
             }
+
 
             // Calcula o tempo de permanência
             var tempoDePermanencia = DateTime.Now - carro.HoraEntrada;
@@ -186,7 +186,9 @@ namespace SysParkingC_.Controllers
                 DataSaida = DateTime.Now.Date,
                 HoraSaida = DateTime.Now,
                 TempoPermanencia = $"{(int)tempoDePermanencia.TotalHours}h {tempoDePermanencia.Minutes}m",
-                ValorTotal = (double?)CalcularValor(tempoDePermanencia) // Função para calcular o valor
+                ValorTotal = await CalcularValor(tempoDePermanencia, id), // Retorna o valor calculado
+                Carro = carro,
+                Pagamento = model.Pagamento
             };
 
             // Adiciona a nota fiscal ao banco de dados
@@ -194,41 +196,66 @@ namespace SysParkingC_.Controllers
             await _context.SaveChangesAsync();
 
             // Retorna a View com os dados da nota fiscal
-            return View(carro);
+            return View(notaFiscal);
         }
 
+
+
         // Função para calcular o valor com base no tempo de permanência
-        private decimal CalcularValor(TimeSpan tempoDePermanencia)
+        private async Task<double> CalcularValor(TimeSpan tempoDePermanencia, int id)
         {
-            decimal tarifaPorHora = 10; // Exemplo: R$10 por hora
-            return (decimal)tempoDePermanencia.TotalHours * tarifaPorHora;
+            // Obtém o carro e o estacionamento associado
+            var carro = await _context.Carro.FirstOrDefaultAsync(c => c.Id == id);
+            if (carro == null)
+            {
+                throw new ArgumentException("Carro não encontrado.");
+            }
+
+            var estacionamento = await _context.Estacionamento.FirstOrDefaultAsync(e => e.Id == carro.EstacionamentoId);
+            if (estacionamento == null)
+            {
+                throw new ArgumentException("Estacionamento não encontrado.");
+            }
+
+            // Cálculo baseado no tempo de permanência
+            double totalHoras = tempoDePermanencia.TotalHours;
+
+            // Exemplo: calcula tarifa considerando intervalos diferentes
+            if (totalHoras <= 0.25) // Até 15 minutos
+                return estacionamento.Preco15Min;
+            else if (totalHoras <= 0.5) // Até 30 minutos
+                return estacionamento.Preco30Min;
+            else if (totalHoras <= 1) // Até 1 hora
+                return estacionamento.Preco1Hora;
+            else if (totalHoras <= 12) // Até 12 horas (meia diária)
+                return estacionamento.PrecoDiaria / 2;
+            else if (totalHoras <= 24) // Até 24 horas (diária completa)
+                return estacionamento.PrecoDiaria;
+            else if (totalHoras <= 72) // Até 3 dias (pernoite)
+                return estacionamento.PrecoPernoite;
+            else // Acima de 3 dias, calcula baseado no preço mensal
+                return (totalHoras / (24 * 30)) * estacionamento.PrecoMensal;
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> GerarNotaFiscalConfirmada(int id)
+        public async Task<IActionResult> GerarNotaFiscalConfirmada(int id, TipoPagamento pagamento)
         {
-            var carro = await _context.Carro.FirstOrDefaultAsync(c => c.Id == id);
+            var notaFiscal = await _context.NotaFiscal.FirstOrDefaultAsync(n => n.CarroId == id);
 
-            if (carro == null)
+            if (notaFiscal == null)
             {
-                return NotFound();
+                return NotFound("Nota fiscal não encontrada.");
             }
 
-            // Criando uma instância da nota fiscal
-            var notaFiscal = new NotaFiscal
-            {
-                CarroId = carro.Id,
-                DataSaida = DateTime.Now,
-                HoraSaida = DateTime.Now
-            };
-
-            _context.NotaFiscal.Add(notaFiscal);
+            // Atualizar o campo de pagamento
+            notaFiscal.Pagamento = pagamento;
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", "NotasFiscais");
         }
+
 
     }
 }

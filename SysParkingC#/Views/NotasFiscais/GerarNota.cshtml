@@ -1,20 +1,35 @@
-﻿@model SysParkingC_.Models.Carro
+﻿@model SysParkingC_.Models.NotaFiscal
 
-<h1>Gerar Nota Fiscal</h1>
+<div class="container mt-4">
+    <h1 class="mb-4">Gerar Nota Fiscal</h1>
 
-<p>Dados do veículo para geração da nota:</p>
-<ul>
-    <li><strong>Marca:</strong> @Model.Marca</li>
-    <li><strong>Modelo:</strong> @Model.Modelo</li>
-    <li><strong>Placa:</strong> @Model.Placa</li>
-    <li><strong>Cor:</strong> @Model.Cor</li>
-    <li><strong>Data de Entrada:</strong> @Model.DataEntrada</li>
-    <li><strong>Hora de Entrada:</strong> @Model.HoraEntrada</li>
-    <li><strong>Tempo de Permanência:</strong> @Model.TempoPermanencia.ToString("N0") minutos</li>
-    <li><strong>Valor Total:</strong> @Model.ValorTotal</li>
-</ul>
+    <p class="mb-3">Dados do veículo para geração da nota:</p>
+    <ul class="list-group mb-4">
+        <li class="list-group-item"><strong>Marca:</strong> @Model.Carro?.Marca</li>
+        <li class="list-group-item"><strong>Modelo:</strong> @Model.Carro?.Modelo</li>
+        <li class="list-group-item"><strong>Placa:</strong> @Model.Carro?.Placa</li>
+        <li class="list-group-item"><strong>Cor:</strong> @Model.Carro?.Cor</li>
+        <li class="list-group-item"><strong>Data de Entrada:</strong> @Model.Carro?.HoraEntrada.ToString("dd/MM/yyyy")</li>
+        <li class="list-group-item"><strong>Hora de Entrada:</strong> @Model.Carro?.HoraEntrada.ToString("HH:mm")</li>
+        <li class="list-group-item"><strong>Data de Saída:</strong> @Model.DataSaida.ToString("dd/MM/yyyy")</li>
+        <li class="list-group-item"><strong>Hora de Saída:</strong> @Model.HoraSaida.ToString("HH:mm")</li>
+        <li class="list-group-item"><strong>Tempo Permanência:</strong> @Model.TempoPermanencia</li>
+        <li class="list-group-item"><strong>Valor:</strong> @Model.ValorTotal?.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("pt-BR"))</li>
+    </ul>
 
-<form asp-action="GerarNotaFiscalConfirmada" method="post">
-    <input type="hidden" asp-for="Id" />
-    <button type="submit" class="btn btn-primary">Gerar Nota Fiscal</button>
-</form>
+    <form asp-action="GerarNotaFiscalConfirmada" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="Pagamento" class="form-label">Forma de Pagamento</label>
+            <select asp-for="Pagamento" class="form-select" asp-items="Html.GetEnumSelectList<SysParkingC_.Models.TipoPagamento>()">
+                <option value="">Selecione uma opção</option>
+            </select>
+            <span asp-validation-for="Pagamento" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success">Gerar Nota Fiscal</button>
+    </form>
+
+
+</div>

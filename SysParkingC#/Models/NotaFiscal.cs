@@ -21,6 +21,9 @@ namespace SysParkingC_.Models
 
     public enum TipoPagamento
     {
+        [Description("Selecione uma opção")]
+        DEFAULT = -1,
+
         [Description("Dinheiro")]
         DINHEIRO = 0,
 
