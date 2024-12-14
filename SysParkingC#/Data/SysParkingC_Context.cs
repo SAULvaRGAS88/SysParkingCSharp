@@ -23,5 +23,14 @@ namespace SysParkingC_.Data
         public DbSet<SysParkingC_.Models.Usuario>? Usuario { get; set; }
 
         public DbSet<SysParkingC_.Models.Relatorio>? Relatorio { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<NotaFiscal>()
+                .HasOne(n => n.Carro)
+                .WithOne(c => c.NotaFiscal)
+                .HasForeignKey<NotaFiscal>(n => n.CarroId)
+                .OnDelete(DeleteBehavior.SetNull); // Define que a referência será definida como NULL
+        }
     }
 }

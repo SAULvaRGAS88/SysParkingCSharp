@@ -160,6 +160,28 @@ namespace SysParkingC_.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> RemoverCarroEstacionado(int id)
+        {
+            if (_context.Carro == null)
+            {
+                return NotFound("A entidade 'Carro' não foi encontrada no contexto.");
+            }
+
+            var carro = await _context.Carro.FindAsync(id);
+
+            if (carro == null)
+            {
+                return NotFound("O carro com o ID especificado não foi encontrado.");
+            }
+
+            _context.Carro.Remove(carro);
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Carro removido com sucesso!";
+            return RedirectToAction("Index"); 
+        }
+
+
         private bool NotaFiscalExists(int id)
         {
           return (_context.NotaFiscal?.Any(e => e.Id == id)).GetValueOrDefault();
@@ -242,6 +264,7 @@ namespace SysParkingC_.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> GerarNotaFiscalConfirmada(int id, TipoPagamento pagamento)
         {
+            // Buscar a nota fiscal vinculada ao carro
             var notaFiscal = await _context.NotaFiscal.FirstOrDefaultAsync(n => n.CarroId == id);
 
             if (notaFiscal == null)
@@ -253,8 +276,18 @@ namespace SysParkingC_.Controllers
             notaFiscal.Pagamento = pagamento;
             await _context.SaveChangesAsync();
 
+            // Buscar o carro pelo ID e removê-lo
+            var carro = await _context.Carro.FindAsync(id);
+            if (carro != null)
+            {
+                _context.Carro.Remove(carro);
+                await _context.SaveChangesAsync();
+            }
+
+            // Redirecionar para a página principal ou outra ação relevante
             return RedirectToAction("Index", "NotasFiscais");
         }
+
 
 
     }

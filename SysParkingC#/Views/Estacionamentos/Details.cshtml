@@ -4,69 +4,90 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="container mt-4">
+    <h1 class="mb-4">Detalhes do Estacionamento</h1>
 
-<div>
-    <h4>Estacionamento</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Endereco)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Endereco)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NumeroVagasDisponiveis)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NumeroVagasDisponiveis)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Preco15Min)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Preco15Min)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Preco30Min)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Preco30Min)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Preco1Hora)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Preco1Hora)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PrecoDiaria)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PrecoDiaria)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PrecoPernoite)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PrecoPernoite)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PrecoMensal)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PrecoMensal)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">Informações do Estacionamento</h4>
+                    <hr />
+                    <!-- Nome -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label fw-bold">Nome:</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-plaintext">@Html.DisplayFor(model => model.Name)</p>
+                        </div>
+                    </div>
+                    <!-- Endereço -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label fw-bold">Endereço:</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-plaintext">@Html.DisplayFor(model => model.Endereco)</p>
+                        </div>
+                    </div>
+                    <!-- Vagas Disponíveis -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label fw-bold">Vagas Disponíveis:</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-plaintext">@Html.DisplayFor(model => model.NumeroVagasDisponiveis)</p>
+                        </div>
+                    </div>
+                    <!-- Preço 15 Min -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label fw-bold">Preço 15 Min:</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-plaintext">@Html.DisplayFor(model => model.Preco15Min)</p>
+                        </div>
+                    </div>
+                    <!-- Preço 30 Min -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label fw-bold">Preço 30 Min:</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-plaintext">@Html.DisplayFor(model => model.Preco30Min)</p>
+                        </div>
+                    </div>
+                    <!-- Preço 1 Hora -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label fw-bold">Preço 1 Hora:</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-plaintext">@Html.DisplayFor(model => model.Preco1Hora)</p>
+                        </div>
+                    </div>
+                    <!-- Preço Diário -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label fw-bold">Preço Diário:</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-plaintext">@Html.DisplayFor(model => model.PrecoDiaria)</p>
+                        </div>
+                    </div>
+                    <!-- Preço Pernoite -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label fw-bold">Preço Pernoite:</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-plaintext">@Html.DisplayFor(model => model.PrecoPernoite)</p>
+                        </div>
+                    </div>
+                    <!-- Preço Mensal -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label fw-bold">Preço Mensal:</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-plaintext">@Html.DisplayFor(model => model.PrecoMensal)</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <!-- Botão Editar com Ícone -->
+                        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">
+                            <i class="bi bi-pencil-square me-2"></i> Editar
+                        </a>
+                        <!-- Botão Voltar com Ícone -->
+                        <a asp-action="Index" class="btn btn-secondary ms-2">
+                            <i class="bi bi-arrow-left-circle me-2"></i> Voltar para a Lista
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
