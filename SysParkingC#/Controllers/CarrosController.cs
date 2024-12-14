@@ -48,7 +48,7 @@ namespace SysParkingC_.Controllers
         // GET: Carros/Create
         public IActionResult Create()
         {
-            ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamento, "Id", "Id");
+            ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamento, "Id", "Name");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace SysParkingC_.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamento, "Id", "Id", carro.EstacionamentoId);
+            ViewBag.EstacionamentoId = new SelectList(_context.Estacionamento, "Id", "Nome", carro.EstacionamentoId);
             return View(carro);
         }
 
@@ -82,9 +82,18 @@ namespace SysParkingC_.Controllers
             {
                 return NotFound();
             }
-            ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamento, "Id", "Id", carro.EstacionamentoId);
+
+            // Carregar apenas os nomes de estacionamentos no dropdown
+            ViewData["EstacionamentoId"] = new SelectList(
+                await _context.Estacionamento.ToListAsync(), // Carrega os dados de estacionamentos
+                "Id",        // Valor que será enviado no form
+                "Name",      // Nome exibido no dropdown
+                carro.EstacionamentoId // Selecionar o valor correto por padrão
+            );
+
             return View(carro);
         }
+
 
         // POST: Carros/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.

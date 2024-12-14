@@ -1,64 +1,94 @@
 ﻿@model SysParkingC_.Models.Carro
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Carro";
 }
 
-<h1>Edit</h1>
+<div class="container mt-4">
+    <h1 class="mb-4">Editar Carro</h1>
 
-<h4>Carro</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Marca" class="control-label"></label>
-                <input asp-for="Marca" class="form-control" />
-                <span asp-validation-for="Marca" class="text-danger"></span>
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <form asp-action="Edit" class="needs-validation" novalidate>
+                <!-- Mensagens de Erro Globais -->
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <!-- Campo ID Oculto -->
+                <input type="hidden" asp-for="Id" />
+
+                <!-- Campo Marca -->
+                <div class="mb-3">
+                    <label asp-for="Marca" class="form-label"></label>
+                    <input asp-for="Marca" class="form-control" />
+                    <span asp-validation-for="Marca" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Modelo -->
+                <div class="mb-3">
+                    <label asp-for="Modelo" class="form-label"></label>
+                    <input asp-for="Modelo" class="form-control" />
+                    <span asp-validation-for="Modelo" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Cor -->
+                <div class="mb-3">
+                    <label asp-for="Cor" class="form-label"></label>
+                    <input asp-for="Cor" class="form-control" />
+                    <span asp-validation-for="Cor" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Placa -->
+                <div class="mb-3">
+                    <label asp-for="Placa" class="form-label"></label>
+                    <input asp-for="Placa" class="form-control" />
+                    <span asp-validation-for="Placa" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Data de Entrada -->
+                <div class="mb-3">
+                    <label asp-for="DataEntrada" class="form-label"></label>
+                    <input asp-for="DataEntrada" type="date" class="form-control" />
+                    <span asp-validation-for="DataEntrada" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Hora de Entrada -->
+                <div class="mb-3">
+                    <label asp-for="HoraEntrada" class="form-label"></label>
+                    <input asp-for="HoraEntrada" type="time" class="form-control" />
+                    <span asp-validation-for="HoraEntrada" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Estacionamento com Ícone -->
+                <div class="mb-3 position-relative">
+                    <label asp-for="EstacionamentoId" class="form-label">Estacionamento</label>
+                    <div class="dropdown-container">
+                        <select asp-for="EstacionamentoId" class="form-control" asp-items="ViewBag.EstacionamentoId"></select>
+                        <span class="dropdown-icon">
+                            <i class="bi bi-chevron-down text-black"></i>
+                        </span>
+                    </div>
+                    <span asp-validation-for="EstacionamentoId" class="text-danger"></span>
+                </div>
+
+
+                <!-- Botão Salvar -->
+                <div class="d-grid">
+                    <input type="submit" value="Salvar" class="btn btn-primary" />
+                </div>
+            </form>
+
+            <!-- Botão para Voltar -->
+            <div class="mt-4 text-center">
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left-circle"></i> Voltar para a Lista
+                </a>
             </div>
-            <div class="form-group">
-                <label asp-for="Modelo" class="control-label"></label>
-                <input asp-for="Modelo" class="form-control" />
-                <span asp-validation-for="Modelo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Cor" class="control-label"></label>
-                <input asp-for="Cor" class="form-control" />
-                <span asp-validation-for="Cor" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Placa" class="control-label"></label>
-                <input asp-for="Placa" class="form-control" />
-                <span asp-validation-for="Placa" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DataEntrada" class="control-label"></label>
-                <input asp-for="DataEntrada" class="form-control" />
-                <span asp-validation-for="DataEntrada" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HoraEntrada" class="control-label"></label>
-                <input asp-for="HoraEntrada" class="form-control" />
-                <span asp-validation-for="HoraEntrada" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EstacionamentoId" class="control-label"></label>
-                <select asp-for="EstacionamentoId" class="form-control" asp-items="ViewBag.EstacionamentoId"></select>
-                <span asp-validation-for="EstacionamentoId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

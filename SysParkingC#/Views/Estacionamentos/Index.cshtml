@@ -33,16 +33,20 @@
                     </div>
                     <div class="card-footer text-center">
                         <div class="btn-group" role="group">
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">
-                                <i class="bi bi-pencil-fill me-1"></i> Editar
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning d-flex flex-column">
+                                <span class="bi bi-pencil-fill me-1"></span>
+                                <p class="m-0 d-inline">Editar</p>
                             </a>
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">
-                                <i class="bi bi-info-circle-fill me-1"></i> Detalhes
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info d-flex flex-column">
+                                <span class="bi bi-info-circle-fill me-1"></span>
+                                <p class="m-0 d-inline">Detalhes</p>
                             </a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">
-                                <i class="bi bi-trash-fill me-1"></i> Deletar
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger d-flex flex-column">
+                                <span class="bi bi-trash-fill me-1"></span>
+                                <p class="m-0 d-inline">Deletar</p>
                             </a>
                         </div>
+
 
                     </div>
                 </div>

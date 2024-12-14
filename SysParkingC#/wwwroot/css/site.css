@@ -29,3 +29,18 @@ body {
     align-items: center;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
+
+/* Contêiner para posicionar corretamente o ícone */
+.dropdown-container {
+    position: relative;
+}
+
+/* Ícone de seta */
+.dropdown-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Evita que o clique no ícone interfira */
+    color: #555;
+}
