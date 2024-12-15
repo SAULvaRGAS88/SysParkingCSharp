@@ -1,59 +1,34 @@
 ﻿@model IEnumerable<SysParkingC_.Models.Relatorio>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Relatório Geral";
 }
 
-<h1>Index</h1>
+<h2>@ViewData["Title"]</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalVeiculosEstacionados)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalArrecadado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TempoTotalPermanenciaHoras)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PeriodoInicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PeriodoFim)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalVeiculosEstacionados)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalArrecadado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TempoTotalPermanenciaHoras)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PeriodoInicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PeriodoFim)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Total de Veículos</th>
+                <th>Total Arrecadado</th>
+                <th>Tempo Total (horas)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.TotalVeiculosEstacionados</td>
+                    <td>@item.TotalArrecadado.ToString("C")</td>
+                    <td>@item.TempoTotalPermanenciaHoras.ToString("N2")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>
+else
+{
+    <p>Nenhum dado disponível no relatório.</p>
+}

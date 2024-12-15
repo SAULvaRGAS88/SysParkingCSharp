@@ -1,0 +1,56 @@
+﻿@model IEnumerable<SysParkingC_.Models.Relatorio>
+
+@{
+    ViewData["Title"] = "Relatório Geral";
+}
+
+@* Declarando a função aqui *@
+@functions {
+    public string FormatarTempo(int totalMinutos)
+    {
+        int horas = totalMinutos / 60;
+        int minutos = totalMinutos % 60;
+        return $"{horas}h {minutos}min";
+    }
+}
+
+<div class="container my-4">
+    <h2 class="text-center">@ViewData["Title"]</h2>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row justify-content-center">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-6 col-lg-4 my-3">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">Resumo do Relatório</h5>
+                            <p class="card-text">
+                                <strong>Total de Veículos:</strong> @item.TotalVeiculosEstacionados<br />
+                                <strong>Total Arrecadado:</strong> @item.TotalArrecadado.ToString("C")<br />
+                                <strong>Tempo Total:</strong> @FormatarTempo((int)item.TempoTotalPermanenciaHoras)
+                            </p>
+                            <div class="mt-4 text-center">
+                                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary btn-sm">
+                                    <i class="bi bi-arrow-left-circle"></i> Voltar para a Página Inicial
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning text-center mt-4">
+            <p>Nenhum dado disponível no relatório.</p>
+        </div>
+        <div class="mt-4 text-center">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left-circle"></i> Voltar para a Página Inicial
+            </a>
+        </div>
+    }
+</div>
