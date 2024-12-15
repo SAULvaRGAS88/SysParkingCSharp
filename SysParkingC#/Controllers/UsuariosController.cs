@@ -48,7 +48,7 @@ namespace SysParkingC_.Controllers
         // GET: Usuarios/Create
         public IActionResult Create()
         {
-            ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamento, "Id", "Id");
+            ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamento, "Id", "Name");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace SysParkingC_.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamento, "Id", "Id", usuario.EstacionamentoId);
+            ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamento, "Id", "Name", usuario.EstacionamentoId);
             return View(usuario);
         }
 
@@ -82,7 +82,7 @@ namespace SysParkingC_.Controllers
             {
                 return NotFound();
             }
-            ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamento, "Id", "Id", usuario.EstacionamentoId);
+            ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamento, "Id", "Name", usuario.EstacionamentoId);
             return View(usuario);
         }
 

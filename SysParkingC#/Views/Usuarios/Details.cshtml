@@ -4,51 +4,106 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="container mt-4">
+    <h1 class="mb-4">Detalhes do Usuário</h1>
 
-<div>
-    <h4>Usuario</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Telefone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Telefone)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Endereco)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Endereco)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Senha)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Senha)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Estacionamento)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Estacionamento.Id)
-        </dd>
-    </dl>
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">Informações do Usuário</h4>
+                    <hr />
+
+                    <!-- Nome -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label fw-bold">Nome:</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-plaintext">@Html.DisplayFor(model => model.Nome)</p>
+                        </div>
+                    </div>
+
+                    <!-- Telefone -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label fw-bold">Telefone:</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-plaintext">@Html.DisplayFor(model => model.Telefone)</p>
+                        </div>
+                    </div>
+
+                    <!-- Endereço -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label fw-bold">Endereço:</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-plaintext">@Html.DisplayFor(model => model.Endereco)</p>
+                        </div>
+                    </div>
+
+                    <!-- Senha com ícone para alternar visibilidade -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label fw-bold">Senha:</label>
+                        <div class="col-sm-8 d-flex align-items-center">
+                            <!-- Texto com senha mascarada -->
+                            <span id="passwordDisplay" class="form-control-plaintext">••••••</span>
+                            <!-- Campo de senha real (invisível) -->
+                            <input type="text" id="passwordInput" value="@Html.DisplayFor(model => model.Senha)" style="display:none; border: none; background: transparent;" readonly />
+                            <!-- Botão para alternar senha -->
+                            <button class="btn btn-link" type="button" id="togglePassword" style="margin-left: 10px;">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label fw-bold">Email:</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-plaintext">@Html.DisplayFor(model => model.Email)</p>
+                        </div>
+                    </div>
+
+                    <!-- Estacionamento -->
+                    <div class="mb-3 row">
+                        <label class="col-sm-4 col-form-label fw-bold">Estacionamento:</label>
+                        <div class="col-sm-8">
+                            <p class="form-control-plaintext">@Html.DisplayFor(model => model.Estacionamento.Name)</p>
+                        </div>
+                    </div>
+
+                    <!-- Botões -->
+                    <div class="mt-4 text-center">
+                        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">
+                            <i class="bi bi-pencil-square me-2"></i> Editar
+                        </a>
+                        <a asp-action="Index" class="btn btn-secondary ms-2">
+                            <i class="bi bi-arrow-left-circle me-2"></i> Voltar para a Lista
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordDisplay = document.getElementById('passwordDisplay');
+        const passwordInput = document.getElementById('passwordInput');
+        let isPasswordVisible = false;
+
+        togglePassword.addEventListener('click', function () {
+            if (isPasswordVisible) {
+                // Se visível, esconde a senha
+                passwordInput.style.display = 'none';
+                passwordDisplay.style.display = 'inline';
+                togglePassword.innerHTML = '<i class="bi bi-eye"></i>';
+            } else {
+                // Se invisível, mostra a senha
+                passwordInput.style.display = 'inline';
+                passwordDisplay.style.display = 'none';
+                togglePassword.innerHTML = '<i class="bi bi-eye-slash"></i>';
+            }
+            isPasswordVisible = !isPasswordVisible;
+        });
+    });
+</script>

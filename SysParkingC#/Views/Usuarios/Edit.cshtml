@@ -1,57 +1,82 @@
 ﻿@model SysParkingC_.Models.Usuario
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Usuário";
 }
 
-<h1>Edit</h1>
+<div class="container mt-4">
+    <h1 class="mb-4">Editar Usuário</h1>
 
-<h4>Usuario</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Nome" class="control-label"></label>
-                <input asp-for="Nome" class="form-control" />
-                <span asp-validation-for="Nome" class="text-danger"></span>
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <form asp-action="Edit" class="needs-validation" novalidate>
+                <!-- Mensagens de Erro Globais -->
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <!-- Campo ID Oculto -->
+                <input type="hidden" asp-for="Id" />
+
+                <!-- Campo Nome -->
+                <div class="mb-3">
+                    <label asp-for="Nome" class="form-label">Nome</label>
+                    <input asp-for="Nome" class="form-control" />
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Telefone -->
+                <div class="mb-3">
+                    <label asp-for="Telefone" class="form-label">Telefone</label>
+                    <input asp-for="Telefone" class="form-control" />
+                    <span asp-validation-for="Telefone" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Endereço -->
+                <div class="mb-3">
+                    <label asp-for="Endereco" class="form-label">Endereço</label>
+                    <input asp-for="Endereco" class="form-control" />
+                    <span asp-validation-for="Endereco" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Senha -->
+                <div class="mb-3">
+                    <label asp-for="Senha" class="form-label">Senha</label>
+                    <input asp-for="Senha" class="form-control" />
+                    <span asp-validation-for="Senha" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Email -->
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <!-- Campo Estacionamento com Dropdown -->
+                <div class="mb-3 position-relative">
+                    <label asp-for="EstacionamentoId" class="form-label">Estacionamento</label>
+                    <div class="dropdown-container">
+                        <select asp-for="EstacionamentoId" class="form-control" asp-items="ViewBag.EstacionamentoId"></select>
+                        <span class="dropdown-icon">
+                            <i class="bi bi-chevron-down text-black"></i>
+                        </span>
+                    </div>
+                    <span asp-validation-for="EstacionamentoId" class="text-danger"></span>
+                </div>
+
+                <!-- Botão Salvar -->
+                <div class="d-grid mt-3">
+                    <input type="submit" value="Salvar" class="btn btn-primary" />
+                </div>
+            </form>
+
+            <!-- Botão para Voltar -->
+            <div class="mt-4 text-center">
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left-circle"></i> Voltar para a Lista
+                </a>
             </div>
-            <div class="form-group">
-                <label asp-for="Telefone" class="control-label"></label>
-                <input asp-for="Telefone" class="form-control" />
-                <span asp-validation-for="Telefone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Endereco" class="control-label"></label>
-                <input asp-for="Endereco" class="form-control" />
-                <span asp-validation-for="Endereco" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Senha" class="control-label"></label>
-                <input asp-for="Senha" class="form-control" />
-                <span asp-validation-for="Senha" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EstacionamentoId" class="control-label"></label>
-                <select asp-for="EstacionamentoId" class="form-control" asp-items="ViewBag.EstacionamentoId"></select>
-                <span asp-validation-for="EstacionamentoId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
