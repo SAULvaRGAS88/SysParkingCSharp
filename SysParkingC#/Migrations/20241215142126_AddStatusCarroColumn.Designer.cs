@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SysParkingC_.Data;
 
@@ -11,9 +12,10 @@ using SysParkingC_.Data;
 namespace SysParkingC_.Migrations
 {
     [DbContext(typeof(SysParkingC_Context))]
-    partial class SysParkingC_ContextModelSnapshot : ModelSnapshot
+    [Migration("20241215142126_AddStatusCarroColumn")]
+    partial class AddStatusCarroColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

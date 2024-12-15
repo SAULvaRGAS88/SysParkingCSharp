@@ -20,10 +20,14 @@ namespace SysParkingC_.Controllers
         }
 
         // GET: Carros
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchTerm = "")
         {
-            var sysParkingC_Context = _context.Carro.Include(c => c.Estacionamento);
-            return View(await sysParkingC_Context.ToListAsync());
+            var query = _context.Carro
+                .Where(c => c.EstaNoEstacionamento == true) // Filtrar carros no estacionamento
+                .Where(c => string.IsNullOrEmpty(searchTerm) || c.Placa.Contains(searchTerm)) // Filtro de placa
+                .Include(c => c.Estacionamento); // Incluir Estacionamento
+
+            return View(await query.ToListAsync()); // Executa a consulta
         }
 
         // GET: Carros/Details/5

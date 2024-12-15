@@ -7,6 +7,16 @@
 <div class="container mt-4">
     <h1 class="mb-4">Carros</h1>
 
+    <!-- Campo de Busca -->
+    <form asp-action="Index" method="get" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="searchTerm" class="form-control" placeholder="Buscar por placa...">
+            <button class="btn btn-primary" type="submit">
+                <i class="bi bi-search me-1"></i> Buscar
+            </button>
+        </div>
+    </form>
+
     <div class="mb-3">
         <a asp-action="Create" class="btn btn-primary">
             <i class="bi bi-plus-circle me-2"></i> Novo Carro
@@ -46,7 +56,6 @@
                                 <p class="m-0 d-inline">Gerar Nota</p>
                             </a>
                         </div>
-
                     </div>
                 </div>
             </div>

@@ -51,5 +51,7 @@ namespace SysParkingC_.Models
         public int EstacionamentoId { get; set; }
 
         public Estacionamento? Estacionamento { get; set; }
+
+        public bool EstaNoEstacionamento { get; set; } = true;
     }
 }

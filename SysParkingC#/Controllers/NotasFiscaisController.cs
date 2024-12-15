@@ -272,23 +272,18 @@ namespace SysParkingC_.Controllers
                 return NotFound("Nota fiscal não encontrada.");
             }
 
-            // Atualizar o campo de pagamento
+            // Atualizar pagamento e status do carro
             notaFiscal.Pagamento = pagamento;
-            await _context.SaveChangesAsync();
-
-            // Buscar o carro pelo ID e removê-lo
             var carro = await _context.Carro.FindAsync(id);
+
             if (carro != null)
             {
-                _context.Carro.Remove(carro);
+                carro.EstaNoEstacionamento = false; // Marca o carro como retirado do estacionamento
                 await _context.SaveChangesAsync();
             }
 
-            // Redirecionar para a página principal ou outra ação relevante
             return RedirectToAction("Index", "NotasFiscais");
         }
-
-
 
     }
 }

@@ -11,15 +11,19 @@ builder.Services.AddDbContext<SysParkingC_Context>(options =>
 // Adicionar suporte para Views
 builder.Services.AddControllersWithViews();
 
-// Configurar o pipeline
 var app = builder.Build();
 
+// Configurar tratamento de erros
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 
+// Configurar tratamento de 404 (página não encontrada)
+app.UseStatusCodePagesWithReExecute("/Home/PageNotFound");
+
+// Configurar redirecionamentos seguros e inicialização estática
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
